@@ -496,113 +496,110 @@
             }
         }
         
-        @media (max-width: 600px) {
-            header {
-                position: static;
-                width: 100vw;
-                padding: var(--spacing-sm);
-            }
-            
-            h1 {
-                font-size: 2rem;
-            }
-            
-            .subheading {
-                font-size: 1rem;
-            }
-            
-            .papers-grid {
-                grid-template-columns: 1fr;
-                gap: var(--spacing-sm);
-            }
-            
-            /* Horizontal scrolling filter for mobile */
-            .filter-container {
-                padding: 0 var(--spacing-sm);
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-                scrollbar-width: none; /* Firefox */
-            }
-            
-            .filter-container::-webkit-scrollbar {
-                display: none; /* Chrome, Safari, Edge */
-            }
-            
-            .filter-buttons {
-                display: flex;
-                flex-wrap: nowrap;
-                justify-content: flex-start;
-                border-radius: 25px;
-                padding: 8px;
-                gap: 6px;
-                width: max-content;
-                min-width: 100%;
-                overflow-x: auto;
-            }
-            
-            .filter-btn {
-                padding: 8px 16px;
-                border-radius: 20px;
-                font-size: 0.8rem;
-                white-space: nowrap;
-                flex-shrink: 0;
-            }
-            
-            .container {
-                padding: 0 var(--spacing-sm);
-            }
-            
-            .paper-card {
-                position: relative;
-                overflow: hidden;
-                max-height: 320px;
-                transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            }
-            
-            .paper-card .view-more-overlay {
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                height: 80px;
-                background: linear-gradient(to top, var(--card-bg) 0%, var(--card-bg) 40%, rgba(255, 255, 255, 0) 100%);
-                display: flex;
-                align-items: flex-end;
-                justify-content: center;
-                padding-bottom: 15px;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                z-index: 10;
-            }
-            
-            .dark-theme .paper-card .view-more-overlay {
-                background: linear-gradient(to top, var(--card-bg) 0%, var(--card-bg) 40%, rgba(31, 41, 55, 0) 100%);
-            }
-            
-            .view-more-btn {
-                background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-                color: white;
-                border: none;
-                padding: 8px 16px;
-                border-radius: 20px;
-                font-size: 0.8rem;
-                font-weight: 600;
-                cursor: pointer;
-                box-shadow: 0 4px 12px rgba(26, 86, 219, 0.3);
-                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                backdrop-filter: blur(10px);
-            }
-            
-            .view-more-btn:hover {
-                transform: translateY(-2px) scale(1.05);
-                box-shadow: 0 6px 16px rgba(26, 86, 219, 0.4);
-            }
-            
-            .view-more-btn:active {
-                transform: translateY(0) scale(0.98);
-            }
-        }
-        
+@media (max-width: 600px) {
+    header {
+        position: static;
+        width: 100vw;
+        padding: var(--spacing-sm);
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    .subheading {
+        font-size: 1rem;
+    }
+    
+    .papers-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-sm);
+    }
+    
+    /* Compact, centered filter panel for mobile (only two buttons) */
+    .filter-container {
+        padding: 0 0.5rem;
+        display: flex;
+        justify-content: center; /* center the whole panel */
+        align-items: center;
+        overflow: visible;       /* avoid extra horizontal space */
+    }
+    
+    .filter-buttons {
+        display: inline-flex;
+        justify-content: center; /* center the buttons inside */
+        align-items: center;
+        gap: 8px;                 /* small gap between two buttons */
+        padding: 6px;             /* tighten padding */
+        border-radius: 999px;
+        background: var(--card-bg);
+        box-shadow: 0 6px 14px var(--shadow);
+        width: auto;              /* shrink to content */
+        min-width: 0;
+    }
+    
+    .filter-btn {
+        padding: 8px 14px;        /* smaller touch-friendly size */
+        border-radius: 22px;
+        font-size: 0.82rem;
+        white-space: nowrap;
+        flex: none;               /* prevent stretching */
+    }
+    
+    .container {
+        padding: 0 var(--spacing-sm);
+    }
+    
+    .paper-card {
+        position: relative;
+        overflow: hidden;
+        max-height: 320px;
+        transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .paper-card .view-more-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 80px;
+        background: linear-gradient(to top, var(--card-bg) 0%, var(--card-bg) 40%, rgba(255, 255, 255, 0) 100%);
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        padding-bottom: 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 10;
+    }
+    
+    .dark-theme .paper-card .view-more-overlay {
+        background: linear-gradient(to top, var(--card-bg) 0%, var(--card-bg) 40%, rgba(31, 41, 55, 0) 100%);
+    }
+    
+    .view-more-btn {
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(26, 86, 219, 0.3);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        backdrop-filter: blur(10px);
+    }
+    
+    .view-more-btn:hover {
+        transform: translateY(-2px) scale(1.05);
+        box-shadow: 0 6px 16px rgba(26, 86, 219, 0.4);
+    }
+    
+    .view-more-btn:active {
+        transform: translateY(0) scale(0.98);
+    }
+}
         @media (max-width: 480px) {
             .papers-grid {
                 grid-template-columns: 1fr;
