@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Research Paper Showcase</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        :root {
+            --primary: #1a56db;
+            --primary-dark: #1e429f;
+            --secondary: #3b82f6;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --tag-bg: #eef2ff;
+            --tag-text: #3730a3;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --header-bg: rgba(255, 255, 255, 0.95);
+            --transition: all 0.3s ease;
+            --border-radius: 12px;
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 1.5rem;
+            --spacing-lg: 2rem;
+            --spacing-xl: 3rem;
+        }
+        
+        .dark-theme {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --secondary: #60a5fa;
+            --text: #f3f4f6;
+            --text-light: #d1d5db;
+            --bg: #111827;
+            --card-bg: #1f2937;
+            --tag-bg: #374151;
+            --tag-text: #e5e7eb;
+            --shadow: rgba(0, 0, 0, 0.25);
+            --header-bg: rgba(31, 41, 55, 0.95);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: var(--transition);
+        }
+        
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding-bottom: 2rem;
+            transition: background-color 0.5s ease;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 25% 25%, rgba(26, 86, 219, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(59, 130, 246, 0.03) 0%, transparent 50%);
+            animation: subtleFloat 15s ease-in-out infinite;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        @keyframes subtleFloat {
+            0%, 100% {
+                opacity: 1;
+                transform: translateY(0px);
+            }
+            50% {
+                opacity: 0.8;
+                transform: translateY(-10px);
+            }
+        }
+        
+        header {
+            background: var(--header-bg);
+            backdrop-filter: blur(10px);
+            padding: var(--spacing-md);
+            box-shadow: 0 4px 12px var(--shadow);
+            position: static;
+            width: 100%;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        h1 {
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            animation: shimmer 3s ease-in-out infinite alternate;
+            position: relative;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+        
+        @keyframes shimmer {
+            0% {
+                background-position: -200% center;
+            }
+            100% {
+                background-position: 200% center;
+            }
+        }
+        
+        h1::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--primary));
+            border-radius: 2px;
+            transform: scaleX(0);
+            transform-origin: center;
+            animation: underline 3s ease-in-out infinite;
+        }
+        
+        @keyframes underline {
+            0%, 100% {
+                transform: scaleX(0.2);
+            }
+            50% {
+                transform: scaleX(1);
+            }
+        }
+        
+        .subheading {
+            color: var(--text-light);
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+            font-weight: 400;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeIn 2s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Toggle button in top-right corner */
+        .toggle-container {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 200;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+        
+        /* Filter Buttons */
+        .filter-container {
+            max-width: 1200px;
+            margin: var(--spacing-lg) auto;
+            padding: 0 var(--spacing-md);
+            text-align: center;
+        }
+        
+        .filter-buttons {
+            display: inline-flex;
+            background: var(--card-bg);
+            border-radius: 50px;
+            padding: 8px;
+            box-shadow: 0 4px 12px var(--shadow);
+            gap: 4px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .filter-btn {
+            background: transparent;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            white-space: nowrap;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .filter-btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(26, 86, 219, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .filter-btn:hover::before {
+            left: 100%;
+        }
+        
+        .filter-btn:hover {
+            color: var(--primary);
+            background: var(--tag-bg);
+            transform: translateY(-2px);
+        }
+        
+        .filter-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: 0 4px 12px rgba(26, 86, 219, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: var(--spacing-lg) auto;
+            padding: 0 var(--spacing-md);
+        }
+        
+        .papers-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-lg);
+        }
+        
+        .paper-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 8px 16px var(--shadow);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+        }
+        
+        .paper-card:hover {
+            box-shadow: 0 12px 24px var(--shadow);
+        }
+        
+        .paper-card.hidden {
+            opacity: 0;
+            transform: scale(0.8);
+            pointer-events: none;
+        }
+        
+        .paper-content {
+            padding: var(--spacing-md);
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        
+        .paper-title {
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
+            color: var(--text);
+            font-weight: 600;
+            line-height: 1.3;
+        }
+        
+        .paper-authors {
+            color: var(--text-light);
+            font-style: italic;
+            margin-bottom: 0.8rem;
+            font-size: 0.9rem;
+        }
+        
+        .paper-conference {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .paper-abstract {
+            color: var(--text-light);
+            margin-bottom: 1.2rem;
+            flex-grow: 1;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+        
+        .paper-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .tag {
+            background: var(--tag-bg);
+            color: var(--tag-text);
+            padding: 0.15rem 0.5rem;
+            border-radius: 14px;
+            font-size: 0.68rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tag::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .paper-card:hover .tag::before {
+            left: 100%;
+        }
+        
+        .tag:hover {
+            transform: scale(1.1);
+            background: var(--primary);
+            color: white;
+        }
+        
+        .paper-links {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .paper-link {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .view-pdf-link {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
+        
+        .download-pdf-link {
+            background: transparent;
+            color: var(--primary);
+            border: 1.5px solid var(--primary);
+        }
+        
+        .paper-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--shadow);
+        }
+        
+        .view-pdf-link:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+        }
+        
+        .download-pdf-link:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .papers-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: var(--spacing-md);
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .papers-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: var(--spacing-sm);
+            }
+            
+            .paper-content {
+                padding: var(--spacing-sm);
+            }
+            
+            .paper-title {
+                font-size: 1.2rem;
+            }
+            
+            .paper-abstract {
+                font-size: 0.9rem;
+            }
+            
+            .paper-link {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+            }
+            
+            .filter-buttons {
+                padding: 6px;
+                gap: 2px;
+            }
+            
+            .filter-btn {
+                padding: 10px 16px;
+                font-size: 0.8rem;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .subheading {
+                font-size: 1.1rem;
+            }
+        }
+        
+        @media (min-width: 601px) {
+            .view-more-overlay {
+                display: none !important;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            header {
+                position: static;
+                width: 100vw;
+                padding: var(--spacing-sm);
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .subheading {
+                font-size: 1rem;
+            }
+            
+            .papers-grid {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-sm);
+            }
+            
+            /* Horizontal scrolling filter for mobile */
+            .filter-container {
+                padding: 0 var(--spacing-sm);
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none; /* Firefox */
+            }
+            
+            .filter-container::-webkit-scrollbar {
+                display: none; /* Chrome, Safari, Edge */
+            }
+            
+            .filter-buttons {
+                display: flex;
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+                border-radius: 25px;
+                padding: 8px;
+                gap: 6px;
+                width: max-content;
+                min-width: 100%;
+                overflow-x: auto;
+            }
+            
+            .filter-btn {
+                padding: 8px 16px;
+                border-radius: 20px;
+                font-size: 0.8rem;
+                white-space: nowrap;
+                flex-shrink: 0;
+            }
+            
+            .container {
+                padding: 0 var(--spacing-sm);
+            }
+            
+            .paper-card {
+                position: relative;
+                overflow: hidden;
+                max-height: 320px;
+                transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            
+            .paper-card .view-more-overlay {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 80px;
+                background: linear-gradient(to top, var(--card-bg) 0%, var(--card-bg) 40%, rgba(255, 255, 255, 0) 100%);
+                display: flex;
+                align-items: flex-end;
+                justify-content: center;
+                padding-bottom: 15px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                z-index: 10;
+            }
+            
+            .dark-theme .paper-card .view-more-overlay {
+                background: linear-gradient(to top, var(--card-bg) 0%, var(--card-bg) 40%, rgba(31, 41, 55, 0) 100%);
+            }
+            
+            .view-more-btn {
+                background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+                color: white;
+                border: none;
+                padding: 8px 16px;
+                border-radius: 20px;
+                font-size: 0.8rem;
+                font-weight: 600;
+                cursor: pointer;
+                box-shadow: 0 4px 12px rgba(26, 86, 219, 0.3);
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                backdrop-filter: blur(10px);
+            }
+            
+            .view-more-btn:hover {
+                transform: translateY(-2px) scale(1.05);
+                box-shadow: 0 6px 16px rgba(26, 86, 219, 0.4);
+            }
+            
+            .view-more-btn:active {
+                transform: translateY(0) scale(0.98);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .papers-grid {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-sm);
+            }
+            
+            .paper-title {
+                font-size: 1.1rem;
+            }
+            
+            .paper-abstract {
+                font-size: 0.9rem;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+        
+        /* Full-screen modal styles for small devices */
+        .paper-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: var(--bg);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .modal-header {
+            position: sticky;
+            top: 0;
+            background: var(--header-bg);
+            backdrop-filter: blur(10px);
+            padding: var(--spacing-sm) var(--spacing-md);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            box-shadow: 0 2px 8px var(--shadow);
+            z-index: 1001;
+            min-height: 60px;
+        }
+        
+        .modal-back-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .modal-back-btn:hover {
+            background: var(--primary-dark);
+            transform: scale(1.1);
+        }
+        
+        .modal-title {
+            color: var(--text);
+            font-size: 1.2rem;
+            margin: 0;
+            font-weight: 600;
+        }
+        
+        .modal-content {
+            flex: 1;
+            padding: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: calc(100vh - 60px);
+            max-height: calc(100vh - 60px);
+            overflow-y: auto;
+        }
+        
+        .modal-paper-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 8px 16px var(--shadow);
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: fit-content;
+            min-height: auto;
+        }
+        
+        .modal-paper-card .paper-content {
+            padding: var(--spacing-md);
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        
+        .modal-paper-card .paper-title {
+            font-size: 1.3rem;
+            margin-bottom: 0;
+            line-height: 1.3;
+            word-wrap: break-word;
+        }
+        
+        .modal-paper-card .paper-abstract {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 0;
+            color: var(--text-light);
+        }
+        
+        .modal-paper-card .paper-tags {
+            margin-bottom: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .modal-paper-card .tag {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+        }
+        
+        .modal-paper-card .paper-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            margin-top: 0.4rem;
+        }
+        
+        .modal-paper-card .paper-link {
+            padding: 0.7rem 1.2rem;
+            font-size: 0.9rem;
+            text-align: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body class="light-theme">
+    <header>
+        <div class="toggle-container">
+            <label class="toggle-switch">
+                <input type="checkbox" id="theme-toggle" />
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="header-content">
+            <h1>Research Paper Showcase</h1>
+            <p class="subheading">A curated collection of my academic research papers and publications.</p>
+        </div>
+    </header>
+
+    <!-- Filter Buttons -->
+    <div class="filter-container">
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="abstract">ABSTRACT</button>
+            <button class="filter-btn" data-filter="paper">PAPER</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="papers-grid">
+            <!-- Research Paper 1 -->
+            <div class="paper-card" data-category="abstract">
+                <div class="paper-content">
+                    <h2 class="paper-title">Growth, Innovation and Sustainability</h2>
+                    <p class="paper-authors">Lakshay Dhoundiyal, Himani Dua Sehgal, Puneet Sehgal</p>
+                    <p class="paper-conference">Organized by Aryabhatta College, University of Delhi in association with Bharatiya Shikshan Mandal, Delhi Prant, ICSSR</p>
+                    <p class="paper-abstract">This abstract highlights how sustainable innovation fosters societal growth while protecting the environment. It emphasizes preventive solutions like process-integrated recycling and cleaner technologies. Financial innovations and good governance promote inclusivity, transparency, and efficiency, ensuring balanced economic progress, environmental sustainability, and social equity for holistic and long-term national development.</p>
+                    <div class="paper-tags">
+                        <span class="tag">GoodGovernance</span>
+                        <span class="tag">Sustainability</span>
+                        <span class="tag">Innovation</span>
+                        <!-- <span class="tag">AI</span> -->
+                    </div>
+                    <div class="paper-links">
+                        <a href="./pdf/Abstract -  Vishwa Guru Bharat 2022.pdf" class="paper-link view-pdf-link" target="_blank"><i class="fas fa-eye"></i> View PDF</a>
+                        <a href="./pdf/Abstract -  Vishwa Guru Bharat 2022.pdf" class="paper-link download-pdf-link" download><i class="fas fa-download"></i> Download PDF</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+
+            <!-- Research Paper 2 -->
+            <div class="paper-card" data-category="abstract">
+                <div class="paper-content">
+                    <h2 class="paper-title">The Impact of Indian Research, Development and Outreaching Efforts Globally in the Field of Information Technology and Science</h2>
+                    <p class="paper-authors">Lakshay Dhoundiyal, Himani Dua Sehgal, Puneet Sehgal</p>
+                    <p class="paper-conference">National Seminar – Bharat Manthan 2023</p>
+                    <p class="paper-abstract">This abstract highlights India’s evolving environmental policies and the vital role of R&D in fostering innovation. It emphasizes integrating Yog and Ayurveda with modern technology for global health, supported by initiatives like Krishi Vigyan Kendras and CSIR centres, promoting indigenous technology, sustainability, and balanced socio-economic development.</p>
+                    <div class="paper-tags">
+                        <span class="tag">ResearchAndDevelopment</span>
+                        <span class="tag">Ayurveda</span>
+                        <span class="tag">Sustainability</span>
+                    </div>
+                    <div class="paper-links">
+                        <a href="./pdf/Abstract - Bharat Manthan 2023.pdf" class="paper-link view-pdf-link" target="_blank"><i class="fas fa-eye"></i> View PDF</a>
+                        <a href="./pdf/Abstract - Bharat Manthan 2023.pdf" class="paper-link download-pdf-link" download><i class="fas fa-download"></i> Download PDF</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+            <div class="paper-card" data-category="abstract">
+                <div class="paper-content">
+                    <h2 class="paper-title">Smart Materials for Aerospace Sensing: Development & Prospects</h2>
+                    <p class="paper-authors">Ekta Arora, Lakshay Dhoundiyal, Manisha Bagri, Nisha Jha</p>
+                    <p class="paper-conference"></p>
+                    <p class="paper-abstract">Smart materials such as piezoelectric, shape-memory, and magnetostrictive materials are transforming aerospace sensing by enabling intelligent, responsive systems. Piezoelectric materials, in particular, enhance energy harvesting, vibration detection, and structural health monitoring, ensuring early fault detection and improved safety. Their integration in aircraft and spacecraft promotes efficiency, reliability, and sustainability, marking a significant advancement in modern aerospace engineering and innovation.</p>
+                    <div class="paper-tags">
+                        <span class="tag">Smart Material</span>
+                        <span class="tag">Aerospace</span>
+                        <span class="tag">Technology</span>
+                    </div>
+                    <div class="paper-links">
+                        <a href="./pdf/Smart Materials - Abstract (RAFM 2024).pdf-7.pdf" class="paper-link view-pdf-link" target="_blank"><i class="fas fa-eye"></i> View PDF</a>
+                        <a href="./pdf/Smart Materials - Abstract (RAFM 2024).pdf-7.pdf" class="paper-link download-pdf-link" download><i class="fas fa-download"></i> Download PDF</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+            <div class="paper-card" data-category="abstract">
+                <div class="paper-content">
+                    <h2 class="paper-title">Smart Devices and IoT in Industrial Applications</h2>
+                    <p class="paper-authors">Lakshay Dhoundiyal, Ekta Arora, Nisha Jha</p>
+                    <p class="paper-conference"></p>
+                    <p class="paper-abstract">Smart devices and the Internet of Things (IoT) are transforming industries and daily life through enhanced connectivity, automation, and data-driven efficiency. IoT enables predictive maintenance, energy optimization, and healthcare monitoring while fostering innovation and sustainability. However, rapid adoption raises privacy, security, and ethical challenges. Balancing technological advancement with robust governance ensures a secure, intelligent, and connected industrial future.</p>
+                    <div class="paper-tags">
+                        <span class="tag">IoT</span>
+                        <span class="tag">Automation</span>
+                        <span class="tag">Industrial Transformation</span>
+                    </div>
+                    <div class="paper-links">
+                        <a href="./pdf/Smart Devices - Abstract (RAFM 2024).pdf" class="paper-link view-pdf-link" target="_blank"><i class="fas fa-eye"></i> View PDF</a>
+                        <a href="./pdf/Smart Devices - Abstract (RAFM 2024).pdf" class="paper-link download-pdf-link" download><i class="fas fa-download"></i> Download PDF</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+
+            <!-- Research Paper 3 -->
+            <div class="paper-card" data-category="paper">
+                <div class="paper-content">
+                    <h2 class="paper-title">The Impact of Indian Research, Development and Outreaching Efforts Globally in the Field of Information Technology and Science</h2>
+                    <p class="paper-authors">Lakshay Dhoundiyal, Saruchi Tandon, Himani Dua Sehgal, Puneet Sehgal</p>
+                    <p class="paper-conference">National Seminar – Bharat Manthan 2023</p>
+                    <p class="paper-abstract">This abstract highlights India’s evolving environmental and research policies, emphasizing R&D’s role in innovation and growth. It integrates Yog and Ayurveda with modern technology to enhance global healthcare. Government initiatives like Krishi Vigyan Kendras and CSIR centres promote indigenous technology, sustainability, and balanced socio-economic and environmental development.</p>
+                    <div class="paper-tags">
+                        <span class="tag">Research</span>
+                        <span class="tag">Innovation</span>
+                        <span class="tag">Sustainability</span>
+                    </div>
+                    <div class="paper-links">
+                        <a href="./pdf/Research Paper - Bharat Manthan 2023-1.pdf" class="paper-link view-pdf-link" target="_blank"><i class="fas fa-eye"></i> View PDF</a>
+                        <a href="./pdf/Research Paper - Bharat Manthan 2023-1.pdf" class="paper-link download-pdf-link" download><i class="fas fa-download"></i> Download PDF</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+            <div class="paper-card" data-category="paper">
+                <div class="paper-content">
+                    <h2 class="paper-title">The Emerging Trends of UPI Transactions in India</h2>
+                    <p class="paper-authors">Lakshay Dhoundiyal, Himani Dua Sehgal, Puneet Sehgal</p>
+                    <p class="paper-conference">CommClave 2024 Annual Flagship Event, CommTalks, ARSD College</p>
+                    <p class="paper-abstract">This abstract highlights UPI’s transformative impact on India’s digital financial ecosystem. Since its launch in 2016, UPI has expanded from 21 to over 450 banks, revolutionizing payments with convenience, transparency, and inclusivity. Despite cybersecurity and interoperability challenges, continuous innovation and government initiatives strengthen its framework, positioning UPI as a vital catalyst in India’s journey toward a $5 trillion digital economy by 2027.</p>
+                    <div class="paper-tags">
+                        <span class="tag">UPI</span>
+                        <span class="tag">Digital</span>
+                        <span class="tag">Finance</span>
+                    </div>
+                    <div class="paper-links">
+                        <a href="./pdf/Research Paper - UPI Transactions in India, CommTalks 2024.pdf" class="paper-link view-pdf-link" target="_blank"><i class="fas fa-eye"></i> View PDF</a>
+                        <a href="./pdf/Research Paper - UPI Transactions in India, CommTalks 2024.pdf" class="paper-link download-pdf-link" download><i class="fas fa-download"></i> Download PDF</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+            <div class="paper-card" data-category="paper">
+                <div class="paper-content">
+                    <h2 class="paper-title">Use of Indian Knowledge in Developing Interventions and Innovations for the Contemporary World</h2>
+                    <p class="paper-authors">Lakshay Dhoundiyal, Himani Dua Sehgal, Puneet Sehgal</p>
+                    <p class="paper-conference">National Seminar on Vishwa Guru Bharat</p>
+                    <p class="paper-abstract">This abstract highlights how sustainable innovation and governance, inspired by Indian knowledge systems, drive holistic development. By integrating responsible environmental practices, financial inclusivity, and participatory governance, India promotes equitable growth. Technological advancement, preventive sustainability, and financial innovation collectively strengthen economic empowerment, ensuring accountability, efficiency, and long-term resilience for a prosperous nation.</p>
+                    <div class="paper-tags">
+                        <span class="tag">Sustainability</span>
+                        <span class="tag">Innovation</span>
+                        <span class="tag">Good Governance</span>
+                    </div>
+                    <div class="paper-links">
+                        <a href="./pdf/Research Paper - Vishwa Guru Bharat 2022.pdf" class="paper-link view-pdf-link" target="_blank"><i class="fas fa-eye"></i> View PDF</a>
+                        <a href="./pdf/Research Paper - Vishwa Guru Bharat 2022.pdf" class="paper-link download-pdf-link" download><i class="fas fa-download"></i> Download PDF</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+            <div class="paper-card" data-category="paper">
+                <div class="paper-content">
+                    <h2 class="paper-title">Smart Devices and IoT in Industrial Applications</h2>
+                    <p class="paper-authors">Lakshay Dhoundiyal, Ekta Arora, Nisha Jha</p> 
+                    <p class="paper-conference"></p>
+                    <p class="paper-abstract">Smart devices and the Internet of Things (IoT) are revolutionizing industries through automation, connectivity, and data-driven insights. Defined by context awareness, autonomy, and interconnectivity, they enhance efficiency in homes, healthcare, and manufacturing. IoT enables predictive maintenance and real-time monitoring but raises privacy and security concerns. Despite challenges, IoT fosters innovation and sustainability, driving a smarter, interconnected, and efficient industrial future.</p>
+                    <div class="paper-tags">
+                        <span class="tag">IoT</span>
+                        <span class="tag">Smart Devices</span>
+                        <span class="tag">connectivity</span>
+                    </div>
+                    <div class="paper-links">
+                        <a href="./pdf/Smart Devices and IoT Paper - RAFM.pdf" class="paper-link view-pdf-link" target="_blank"><i class="fas fa-eye"></i> View PDF</a>
+                        <a href="./pdf/Smart Devices and IoT Paper - RAFM.pdf" class="paper-link download-pdf-link" download><i class="fas fa-download"></i> Download PDF</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+            <div class="paper-card" data-category="paper">
+                <div class="paper-content">
+                    <h2 class="paper-title">Smart Materials for Aerospace Sensing: Development & Prospects</h2>
+                    <p class="paper-authors">Ekta Arora, Lakshay Dhoundiyal, Manisha Bagri, Nisha Jha</p>
+                    <p class="paper-conference"></p>
+                    <p class="paper-abstract">Smart materials—such as piezoelectric, shape-memory, and magnetostrictive materials—are transforming aerospace sensing by enabling intelligent, responsive systems. Piezoelectric materials, in particular, play a vital role in energy harvesting, vibration monitoring, and structural health monitoring (SHM). Their integration in aircraft enhances anomaly detection, safety, and efficiency. As research progresses, these multifunctional materials promise a new era of intelligent, reliable, and sustainable aerospace engineering.</p>
+                    <div class="paper-tags">
+                        <span class="tag">Smart Materials</span>
+                        <span class="tag">Aerospace</span>
+                        <span class="tag">Sensing</span>
+                    </div>
+                    <div class="paper-links">
+                        <a href="./pdf/Smart Materials Paper - RAFM.pdf" class="paper-link view-pdf-link" target="_blank"><i class="fas fa-eye"></i> View PDF</a>
+                        <a href="./pdf/Smart Materials Paper - RAFM.pdf" class="paper-link download-pdf-link" download><i class="fas fa-download"></i> Download PDF</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+
+            <!-- Research Paper 4 -->
+            <div class="paper-card" data-category="abstract">
+                <div class="paper-content">
+                    <h2 class="paper-title">The Emerging Trends of UPI Transactions in India</h2>
+                    <p class="paper-authors">Lakshay Dhoundiyal, Himani Dua Sehgal, Puneet Sehgal</p>
+                    <p class="paper-conference"></p>
+                    <p class="paper-abstract">This abstract explores emerging trends in UPI transactions and their transformative impact on India’s economy. It highlights UPI’s rapid adoption, convenience, and role in promoting financial inclusion. Despite challenges like cybersecurity and technical issues, continuous innovation ensures its growth, fostering digital empowerment, sustainable progress, and a robust financial ecosystem.</p>
+                    <div class="paper-tags">
+                        <span class="tag">Digital Economy</span>
+                        <span class="tag"> Innovation</span>
+                        <span class="tag"> Empowerment</span> 
+                    </div>
+                    <div class="paper-links">
+                        <a href="./pdf/Abstract - Emerging Trends of UPI Transactions, Commclave 24.pdf" class="paper-link view-pdf-link" target="_blank"><i class="fas fa-eye"></i> View PDF</a>
+                        <a href="./pdf/Abstract - Emerging Trends of UPI Transactions, Commclave 24.pdf" class="paper-link download-pdf-link" download><i class="fas fa-download"></i> Download PDF</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+
+            <!-- Research Paper 5 -->
+            
+
+            
+        </div>
+    </div>
+
+    <!-- Added full-screen modal for small devices -->
+    <div id="paper-modal" class="paper-modal">
+        <div class="modal-header">
+            <button id="modal-back-btn" class="modal-back-btn">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h3 class="modal-title">Paper Details</h3>
+        </div>
+        <div class="modal-content">
+            <!-- Paper content will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <script>
+        // Dark/Light Theme toggle
+        const toggleSwitch = document.getElementById("theme-toggle")
+        const body = document.body
+
+        toggleSwitch.addEventListener("change", () => {
+            if (toggleSwitch.checked) {
+                body.classList.add("dark-theme")
+                body.classList.remove("light-theme")
+            } else {
+                body.classList.add("light-theme")
+                body.classList.remove("dark-theme")
+            }
+        })
+
+        // Filter functionality
+        const filterButtons = document.querySelectorAll(".filter-btn")
+        const paperCards = document.querySelectorAll(".paper-card")
+
+        // Set default view to abstracts only
+        document.addEventListener("DOMContentLoaded", () => {
+            // Show only abstracts initially
+            paperCards.forEach((card) => {
+                const cardCategory = card.getAttribute("data-category")
+                if (cardCategory === "abstract") {
+                    card.style.display = "flex"
+                } else {
+                    card.style.display = "none"
+                }
+            })
+
+            // Add click event listeners to filter buttons
+            filterButtons.forEach((button) => {
+                button.addEventListener("click", () => {
+                    // Remove active class from all buttons
+                    filterButtons.forEach((btn) => btn.classList.remove("active"))
+                    // Add active class to clicked button
+                    button.classList.add("active")
+
+                    const filterValue = button.getAttribute("data-filter")
+
+                    paperCards.forEach((card) => {
+                        const cardCategory = card.getAttribute("data-category")
+                        if (cardCategory === filterValue) {
+                            card.classList.remove("hidden")
+                            setTimeout(() => {
+                                card.style.display = "flex"
+                            }, 10)
+                        } else {
+                            card.classList.add("hidden")
+                            setTimeout(() => {
+                                card.style.display = "none"
+                            }, 300)
+                        }
+                    })
+                })
+            })
+        })
+
+        // Modal functionality
+        const viewMoreOverlays = document.querySelectorAll(".view-more-overlay")
+        const paperModal = document.getElementById("paper-modal")
+        const modalContent = document.querySelector(".modal-content")
+        const modalBackBtn = document.getElementById("modal-back-btn")
+
+        // Close modal function
+        function closeModal() {
+            paperModal.style.display = "none"
+            document.body.style.overflow = "auto"
+        }
+
+        // Back button click handler
+        modalBackBtn.addEventListener("click", closeModal)
+
+        // Close modal when clicking outside content (optional)
+        paperModal.addEventListener("click", (e) => {
+            if (e.target === paperModal) {
+                closeModal()
+            }
+        })
+
+        viewMoreOverlays.forEach((overlay) => {
+            const viewMoreBtn = overlay.querySelector(".view-more-btn")
+            const paperCard = overlay.parentElement
+
+            viewMoreBtn.addEventListener("click", (e) => {
+                e.stopPropagation()
+
+                // Check if we're on small device
+                if (window.innerWidth <= 600) {
+                    // Clone the paper card for modal
+                    const clonedCard = paperCard.cloneNode(true)
+                    clonedCard.classList.add("modal-paper-card")
+                    clonedCard.classList.remove("paper-card")
+
+                    // Remove the view more overlay from cloned card
+                    const clonedOverlay = clonedCard.querySelector(".view-more-overlay")
+                    if (clonedOverlay) {
+                        clonedOverlay.remove()
+                    }
+
+                    // Clear modal content and add cloned card
+                    modalContent.innerHTML = ""
+                    modalContent.appendChild(clonedCard)
+
+                    // Show modal
+                    paperModal.style.display = "flex"
+                    document.body.style.overflow = "hidden"
+                } else {
+                    if (paperCard.classList.contains("expanded")) {
+                        paperCard.classList.remove("expanded")
+                        viewMoreBtn.textContent = "View More"
+                        // Smooth scroll to top of card when collapsing
+                        setTimeout(() => {
+                            paperCard.scrollIntoView({
+                                behavior: "smooth",
+                                block: "nearest",
+                            })
+                        }, 100)
+                    } else {
+                        paperCard.classList.add("expanded")
+                        viewMoreBtn.textContent = "View Less"
+                    }
+                }
+            })
+        })
+
+        function handleResize() {
+            if (window.innerWidth > 600) {
+                closeModal()
+            }
+        }
+
+        window.addEventListener("resize", handleResize)
+        handleResize() // Call once on load
+    </script>
+</body>
+</html>
